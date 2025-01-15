@@ -1,17 +1,18 @@
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./pages/Login/Login";
 
-export function App() {
-
+const App: React.FC = () => {
   return (
-    <div className="bg-black-deep text-white-pure font-serif p-6">
-      <h1 className="text-3xl mb-4">Bem-vindo ao Meu Site</h1>
-      <p className="text-gray-light font-sans">Este é um exemplo de texto utilizando a paleta de cores e tipografia inspiradas no site da Carol Schenato.</p>
-    </div>
-
-  )
+    <Router>
+      <Routes>
+        {/* Rota para Login */}
+        <Route path="/" element={<Login />} />
 
 
-}
+      </Routes>
+    </Router>
+  );
+};
 
-
-
-
+export default App;
