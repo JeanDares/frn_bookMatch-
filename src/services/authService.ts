@@ -2,6 +2,13 @@ import axios from "axios";
 import BASE_URL from "../config/api";
 
 interface LoginResponse {
+  user: {
+    id: number;
+    email: string;
+    name: string;
+    has_preferences: boolean;
+    preferences: Record<string, string>;
+  };
   token: string;
 }
 

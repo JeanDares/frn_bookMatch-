@@ -1,22 +1,45 @@
 import React, { useState } from "react";
 import styles from "./Login.module.css";
 import { login } from "../../services/authService";
+import { setUser } from "../../redux/userSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Login submitted", { email, password });
 
         try {
             const response = await login(email, password);
+
             localStorage.setItem("token", response.token);
-            console.log("Login successful");
-            console.log("Token:", response.token);
-            window.location.href = "/home";
+
+
+            dispatch(setUser({
+                id: response.user.id,
+                name: response.user.name,
+                email: response.user.email,
+                has_preferences: response.user.has_preferences,
+                preferences: response.user.preferences, // Armazena as preferências
+            }));
+
+
+
+
+            if (response.user?.has_preferences === false) {
+                navigate("/first-access");
+            } else {
+                navigate("/home")
+            }
         } catch (error) {
             console.error("Erro ao tentar fazer loginnnnnn", error);
         }
@@ -94,3 +117,7 @@ const Login: React.FC = () => {
 };
 
 export default Login;
+
+
+
+

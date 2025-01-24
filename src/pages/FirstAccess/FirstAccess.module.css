@@ -1,0 +1,83 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #444444;
+  padding: 16px;
+}
+
+.card {
+  background-color: #1e1e1e;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  width: 60%;
+  max-width: 900px;
+  width: 100%;
+  text-align: center;
+  color: #ffffff;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: #b0b0b0;
+  margin-bottom: 24px;
+}
+
+.genresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.genreButton {
+  background-color: transparent;
+  border: 2px solid #3a3a3a;
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.genreButton:hover {
+  background-color: #3a3a3a;
+}
+
+.genreButton.selected {
+  background-color: #666666;
+  color: #ffffff;
+  border-color: #333333;
+}
+
+.confirmButton {
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.confirmButton:hover {
+  background-color: #0056b3;
+}
+
+.confirmButton:disabled {
+  background-color: #3a3a3a;
+  cursor: not-allowed;
+}
