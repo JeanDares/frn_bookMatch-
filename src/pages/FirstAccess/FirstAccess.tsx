@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import styles from "./FirstAccess.module.css";
 import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store"; // Adjust the import path according to your project structure
+import { RootState } from "../../redux/store";
+import { savePreferences } from "../../services/preferencesService";
+import { useNavigate } from "react-router-dom";
 
 const genres = [
     "Ficção", "Romance", "Fantasia", "Terror",
@@ -12,13 +14,12 @@ const genres = [
     "Natureza", "Espiritualidade", "Culinária",
     "Negócios", "Poesia", "Tecnologia"
 ];
+
 const FirstAccess: React.FC = () => {
     const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+    const [loading, setLoading] = useState(false);
     const user = useSelector((state: RootState) => state.user.user);
-
-
-
-
+    const navigate = useNavigate();
 
     const toggleGenre = (genre: string) => {
         if (selectedGenres.includes(genre)) {
@@ -28,9 +29,33 @@ const FirstAccess: React.FC = () => {
         }
     };
 
-    const handleConfirm = () => {
-        console.log("Gêneros selecionados:", selectedGenres);
-        // Chamar API para salvar as preferências
+    const handleConfirm = async () => {
+        if (!user) {
+            console.error("Usuário não autenticado.");
+            return;
+        }
+
+        setLoading(true);
+
+        try {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                throw new Error("Token não encontrado. Usuário não autenticado.");
+            }
+
+            const response = await savePreferences(token, selectedGenres);
+            console.log("Preferências salvas com sucesso:", response);
+
+
+            alert("Preferências salvas com sucesso!");
+
+            navigate("/home");
+        } catch (error) {
+            console.error(error);
+            alert("Erro ao salvar preferências. Tente novamente.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -56,9 +81,9 @@ const FirstAccess: React.FC = () => {
                 <button
                     className={styles.confirmButton}
                     onClick={handleConfirm}
-                    disabled={selectedGenres.length === 0}
+                    disabled={selectedGenres.length === 0 || loading}
                 >
-                    Confirmar Preferências
+                    {loading ? "Salvando..." : "Confirmar Preferências"}
                 </button>
             </div>
         </div>
